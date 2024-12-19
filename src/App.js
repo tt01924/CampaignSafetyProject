@@ -15,23 +15,33 @@ export default function App() {
   const [isBoardsOpen, setIsBoardsOpen] = useState(false);
 
   // Handle login
-  const handleLogin = (username, password) => {
-    // Hardcoded login credentials
-    if (username === "admin" && password === "admin123") {
-      setIsAdmin(true);
-      setIsLoggedIn(true);
-    } else if (username && password) {
-      setIsAdmin(false);
-      setIsLoggedIn(true);
-    } else {
-      alert("Invalid login credentials");
+  const handleLogin = async (username, password) => {
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setIsLoggedIn(true);
+        setIsAdmin(data.role === "admin");
+      } else {
+        alert("Invalid login credentials");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert("An error occurred during login.");
     }
   };
-  
+
   if (!isLoggedIn) {
-    return <Login onLogin={handleLogin} />; // Show the Login page if not logged in
+    return <Login onLogin={handleLogin} />;
   }
-  
+
   if (isAdmin) {
     return (
       <div className="App">
@@ -49,7 +59,6 @@ export default function App() {
       <button onClick={() => setIsTopicOpen(true)}>Video Topic</button>
       <button onClick={() => setIsBoardsOpen(true)}>Boards</button>
       <button onClick={() => setIsScriptOpen(true)}>Script</button>
-      
 
       {isScriptOpen && <Script scriptOpenPopup={setIsScriptOpen} />}
       {isTopicOpen && <Topic topicOpenPopup={setIsTopicOpen} />}
