@@ -40,3 +40,24 @@ This can all be found in the Database folder.
 Within the ‘initDummyDatabase.js’ you can see how I would insert Influencer/admin note submissions as a stretch goal so that they could more easily communicate with the admin/those reviewing the influencers submissions (Line 126 onwards).
 
 ‘uploads’ folder allows us to save images to users in the database. You can see where the link is made in the server.js, line 12.
+
+**Additionally** 
+My .gitIgnore holds the following files:
+#### Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+
+#### Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+package-lock.json
+.idea
+.DS_Store
