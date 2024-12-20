@@ -17,6 +17,7 @@ Built using React, Express, Node, PostgreSQL
 - Browse your website on mobile, tablet, and desktop devices
 - Notifies the admin via email once a submission has been made
 - Admin can then approve or deny submissions by influencers and provide feedback
+- Mobile, tablet, and laptop compatible
 
 ## What I learned
 
