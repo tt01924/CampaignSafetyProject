@@ -1,46 +1,47 @@
 const mongoose = require("mongoose");
 
-// Admin Schema
-const AdminSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  fName: String,
-  lName: String,
-  email: String,
+// Submission Schema (embedded directly in Influencer)
+const submissionSchema = new mongoose.Schema({
+  project: { type: Number, required: true },
+  imagePath: { type: String, required: true },
 });
 
-// Influencer Schema
+// Admin Schema
+const AdminSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  fName: { type: String },
+  lName: { type: String },
+  email: { type: String },
+});
+
+// Influencer Schema (with embedded submissions array)
 const InfluencerSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  fName: String,
-  lName: String,
-  email: String,
-  campaign_id: String,
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  fName: { type: String },
+  lName: { type: String },
+  email: { type: String },
+  campaign_id: { type: String },
+  video_topic: { type: String },
+  submissions: [submissionSchema], // Embedding the submissions array here
+  script: { type: String },
 });
 
 // Influencer Submission Entry Schema
 const InfluencerSubmissionEntrySchema = new mongoose.Schema({
-  campaign_id: Number,
-  text: String,
-  timestamp: Date,
+  campaign_id: { type: Number, required: true },
+  text: { type: String, required: true },
+  timestamp: { type: Date, required: true },
 });
 
 // Admin Message Schema
 const AdminMessageSchema = new mongoose.Schema({
-  record_id: Number,
-  campaign_id: Number,
-  admin_id: Number,
-  notes: String,
+  record_id: { type: Number, required: true },
+  campaign_id: { type: Number, required: true },
+  admin_id: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
+  notes: { type: String, required: true },
 });
-
-// Define the submission schema
-const submissionSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  submissions: { type: Array, required: true }
-});
-// Create the model from the schema
-const Submissions = mongoose.model('Submissions', submissionSchema);
 
 // Export models
 module.exports = {
@@ -51,5 +52,4 @@ module.exports = {
     InfluencerSubmissionEntrySchema
   ),
   AdminMessage: mongoose.model("AdminMessage", AdminMessageSchema),
-  Submissions: Submissions
 };

@@ -74,7 +74,8 @@ export default function App() {
     return (
       <div className="App">
         <h1>Welcome, Admin!</h1>
-        <p>This is the admin page. Manage your application here.</p>
+        <p>This is the admin page. Manage influencer submissions here.</p>
+        <button onClick={handleLogout}>Logout</button>
         {/* Add admin-specific functionality here */}
       </div>
     );

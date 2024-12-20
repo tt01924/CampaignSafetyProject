@@ -1,15 +1,44 @@
 import { useState } from "react";
 import { AiOutlineCloseSquare } from "react-icons/ai";
-import BoardPopup from "./BoardPopup";
 
 const Boards = ({ boardOpenPopup }) => {
-  // States to control project popups
   const [isProject1Open, setIsProject1Open] = useState(false);
   const [isProject2Open, setIsProject2Open] = useState(false);
 
+  const handleImageSubmit = async (event, projectNumber) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    const fileInput = event.target.elements.file;
+    const image = fileInput.files[0];
+
+    if (!image) {
+      alert("Please select an image to upload.");
+      return;
+    }
+
+    formData.append("image", image);
+    formData.append("project", projectNumber);
+
+    try {
+      const response = await fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("Image uploaded successfully!");
+      } else {
+        alert("Failed to upload image.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("An error occurred while uploading the image.");
+    }
+  };
+
   return (
     <div
-      onClick={boardOpenPopup.bind(this, false)}
       style={{
         position: "fixed",
         background: "rgba(0,0,0,0.6)",
@@ -19,7 +48,7 @@ const Boards = ({ boardOpenPopup }) => {
         bottom: 0,
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
       {/* Content */}
@@ -31,21 +60,21 @@ const Boards = ({ boardOpenPopup }) => {
           borderRadius: "8px",
           width: "300px",
           padding: "20px 10px",
-          animation: "dropTop .3s linear"
+          animation: "dropTop .3s linear",
         }}
       >
         {/* Header */}
         <div
           style={{ borderBottom: "1px solid lightgray", paddingBottom: "10px" }}
         >
-          <h1 style={{ margin: 0 }}>Milanote Board submission</h1>
+          <h1 style={{ margin: 0 }}>Milanote Board Submission</h1>
           <div
-            onClick={boardOpenPopup.bind(this, false)}
+            onClick={() => boardOpenPopup(false)}
             style={{
               cursor: "pointer",
               position: "absolute",
               top: 10,
-              right: 10
+              right: 10,
             }}
           >
             <AiOutlineCloseSquare />
@@ -54,22 +83,20 @@ const Boards = ({ boardOpenPopup }) => {
 
         {/* Body */}
         <div style={{ marginTop: "10px" }}>
-          <h3>boards:</h3>
+          <h3>Boards:</h3>
           {/* Buttons */}
           <button
             onClick={() => setIsProject1Open(true)}
             style={buttonStyle}
           >
-            Board 1
-          </button> 
-          {/* Add required guardrail */}
+            Submit Board 1
+          </button>
           <button
             onClick={() => setIsProject2Open(true)}
             style={buttonStyle}
           >
-            Board 2
+            Submit Board 2
           </button>
-          {/* Add required guardrail */}
         </div>
 
         {/* Footer */}
@@ -78,22 +105,34 @@ const Boards = ({ boardOpenPopup }) => {
         </footer>
       </div>
 
-      {/* Conditionally Render Project Popups */}
+      {/* Conditionally Render Image Upload Popups */}
       {isProject1Open && (
-        <BoardPopup
-          title="Project 1 Details"
-          description="This is where you submit your first board."
-          link="https://github.com/username/project1"
-          onClose={() => setIsProject1Open(false)}
-        />
+        <div style={popupStyle}>
+          <h3>Submit Board 1</h3>
+          <form onSubmit={(e) => handleImageSubmit(e, 1)}>
+            <input type="file" name="file" accept="image/*" />
+            <button type="submit" style={buttonStyle}>
+              Upload Image
+            </button>
+          </form>
+          <button onClick={() => setIsProject1Open(false)} style={buttonStyle}>
+            Close
+          </button>
+        </div>
       )}
       {isProject2Open && (
-        <BoardPopup
-          title="Board 2 Details"
-          description="This is where you submit your second board."
-          link="https://github.com/username/project2"
-          onClose={() => setIsProject2Open(false)}
-        />
+        <div style={popupStyle}>
+          <h3>Submit Board 2</h3>
+          <form onSubmit={(e) => handleImageSubmit(e, 2)}>
+            <input type="file" name="file" accept="image/*" />
+            <button type="submit" style={buttonStyle}>
+              Upload Image
+            </button>
+          </form>
+          <button onClick={() => setIsProject2Open(false)} style={buttonStyle}>
+            Close
+          </button>
+        </div>
       )}
     </div>
   );
@@ -110,5 +149,14 @@ const buttonStyle = {
   margin: "5px",
   borderRadius: "5px",
   cursor: "pointer",
-  fontWeight: "bold"
+  fontWeight: "bold",
+};
+
+// Popup Style
+const popupStyle = {
+  position: "fixed",
+  background: "white",
+  borderRadius: "8px",
+  padding: "20px",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
 };

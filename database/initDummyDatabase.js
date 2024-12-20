@@ -7,10 +7,18 @@ const {
 } = require("./entities");
 
 // Connecting to MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/dummyApp", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+(async () => {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/dummyApp", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+    process.exit(1);
+  }
+})();
 
 async function initDummyDatabase() {
   try {
@@ -36,40 +44,78 @@ async function initDummyDatabase() {
         password: "Shar123",
         fName: "Shar",
         lName: "Doe",
-        email: "todd01924@gmail.com",
+        email: "shar@example.com",
         campaign_id: "1",
+        video_topic: "",
+        submissions: [
+          {
+            project: 1,
+            imagePath: "./uploads/shar-project1.jpeg", /////////////////
+          },
+        ],
+        script: "",
       },
       {
         username: "Etellan",
         password: "Etellan123",
         fName: "Etellan",
         lName: "Doe",
-        email: "todd01924@gmail.com",
+        email: "etellan@example.com",
         campaign_id: "2",
+        video_topic: "",
+        submissions: [
+          {
+            project: 1,
+            imagePath: "./uploads/etellan-project1.jpeg",
+          },
+        ],
+        script: "",
       },
       {
         username: "Viyaura",
         password: "Viyaura123",
         fName: "Viyaura",
         lName: "Doe",
-        email: "todd01924@gmail.com",
+        email: "viyaura@example.com",
         campaign_id: "3",
+        video_topic: "",
+        submissions: [    {
+          project: 1,
+          imagePath: "./uploads/viyaura-project1.jpeg",
+        },],
+        script: "",
       },
       {
         username: "Hanacue",
         password: "Hanacue123",
         fName: "Hanacue",
         lName: "Doe",
-        email: "todd01924@gmail.com",
+        email: "hanacue@example.com",
         campaign_id: "4",
+        video_topic: "",
+        submissions: [
+          {
+            project: 1,
+            imagePath: "./uploads/hanacue-project1.jpeg",
+          },
+        ],
+        script: "",
       },
       {
         username: "Oridays",
         password: "Oridays123",
         fName: "Oridays",
         lName: "Doe",
-        email: "todd01924@gmail.com",
+        email: "oridays@example.com",
         campaign_id: "5",
+        video_topic: "",
+        submissions: [
+          {
+            project: 1,
+            imagePath: "./uploads/oridays-project1.jpeg",
+          },
+        ],
+        script: "",
       },
     ];
 
@@ -124,11 +170,36 @@ async function initDummyDatabase() {
 
     // Insert Admin Messages
     const adminMessages = [
-      { record_id: 1, campaign_id: 1, admin_id: 1, notes: "This is great, love the structure." },
-      { record_id: 2, campaign_id: 2, admin_id: 1, notes: "Thanks for your hard work." },
-      { record_id: 3, campaign_id: 3, admin_id: 1, notes: "This script needs revisiting." },
-      { record_id: 4, campaign_id: 4, admin_id: 1, notes: "You're going to have to make this longer." },
-      { record_id: 5, campaign_id: 5, admin_id: 1, notes: "This is my favourite script yet!" },
+      {
+        record_id: 1,
+        campaign_id: 1,
+        admin_id: admin1._id,
+        notes: "This is great, love the structure.",
+      },
+      {
+        record_id: 2,
+        campaign_id: 2,
+        admin_id: admin1._id,
+        notes: "Thanks for your hard work.",
+      },
+      {
+        record_id: 3,
+        campaign_id: 3,
+        admin_id: admin1._id,
+        notes: "This script needs revisiting.",
+      },
+      {
+        record_id: 4,
+        campaign_id: 4,
+        admin_id: admin1._id,
+        notes: "You're going to have to make this longer.",
+      },
+      {
+        record_id: 5,
+        campaign_id: 5,
+        admin_id: admin1._id,
+        notes: "This is my favourite script yet!",
+      },
     ];
     await AdminMessage.insertMany(adminMessages);
 

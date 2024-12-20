@@ -2,6 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { Admin, Influencer, Submissions } = require("./entities");
 const cors = require('cors');
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" }); 
+const router = express.Router();
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Directory where images will be stored
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Unique file name
+  },
+});
+
 
 const app = express();
 app.use(express.json());
@@ -73,6 +87,26 @@ app.post("/logout", async (req, res) => {
       res.status(500).json({ error: "Failed to log out and save data." });
     }
   });
+
+app.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    const { project } = req.body;
+    const username = req.body.username || "unknown_user"; // Add logic to fetch actual username
+    const imagePath = req.file.path;
+
+    // Save the image path to the database
+    await Submissions.create({
+      username,
+      submissions: [{ project, imagePath }],
+    });
+
+    res.json({ message: "Image uploaded successfully." });
+  } catch (err) {
+    console.error("Error uploading image:", err);
+    res.status(500).json({ error: "Failed to upload image." });
+  }
+});
+
   
 
 // Start the server
