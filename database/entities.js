@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// Submission Schema (embedded directly in Influencer)
+// Submission Schema for images (Influencer)
 const submissionSchema = new mongoose.Schema({
   project: { type: Number, required: true },
   imagePath: { type: String, required: true },
@@ -15,7 +15,7 @@ const AdminSchema = new mongoose.Schema({
   email: { type: String },
 });
 
-// Influencer Schema (with embedded submissions array)
+// Influencer Schema
 const InfluencerSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },

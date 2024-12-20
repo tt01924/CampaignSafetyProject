@@ -1,5 +1,5 @@
 import { AiOutlineCloseSquare } from "react-icons/ai";
-
+// Popup that occurs when uploading image
 const BoardPopup = ({ title, description, link, onClose }) => {
   return (
     <div

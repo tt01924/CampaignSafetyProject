@@ -50,7 +50,8 @@ const Script = ({ scriptOpenPopup }) => {
         <div>
         <section class="container">
             <form>
-                <fieldset>
+                <fieldset> 
+                  {/* Fieldset to collect the script used by the influencer */}
                     <legend>Script</legend>
                     <div class="contactFields">
                         <div class="field">
@@ -67,9 +68,8 @@ const Script = ({ scriptOpenPopup }) => {
         </div>
         {/* Footer */}
         <footer
-          style={{ borderTop: "1px solid lightgray", paddingTop: "10px" }}
-        >
-          Footer here
+          style={{ borderTop: "1px solid lightgray", paddingTop: "10px" }}>
+          Written by Todd Taylor
         </footer>
       </div>
     </div>

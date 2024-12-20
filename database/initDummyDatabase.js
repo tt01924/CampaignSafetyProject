@@ -50,7 +50,7 @@ async function initDummyDatabase() {
         submissions: [
           {
             project: 1,
-            imagePath: "./uploads/shar-project1.jpeg", /////////////////
+            imagePath: "./uploads/shar-project1.jpeg",
           },
         ],
         script: "",

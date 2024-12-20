@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 
-// Define Admin schema
+// Admin schema
 const adminSchema = new mongoose.Schema({
   username: String,
   password: String,
 });
 
-// Define Influencer schema
+// Influencer schema
 const influencerSchema = new mongoose.Schema({
   username: String,
   password: String,
 });
 
-// Create models
+// Models
 const Admin = mongoose.model("Admin", adminSchema);
 const Influencer = mongoose.model("Influencer", influencerSchema);
 
@@ -25,7 +25,7 @@ async function initDatabase() {
     });
     console.log("Connected to the database.");
 
-    // Clear existing data (optional)
+    // Clear existing data
     await Admin.deleteMany({});
     await Influencer.deleteMany({});
 

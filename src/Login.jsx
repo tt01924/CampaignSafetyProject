@@ -6,7 +6,7 @@ const Login = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(username, password); // Pass username and password to the parent
+    onLogin(username, password);
   };
 
   return (

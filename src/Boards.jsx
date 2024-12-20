@@ -67,7 +67,7 @@ const Boards = ({ boardOpenPopup }) => {
         <div
           style={{ borderBottom: "1px solid lightgray", paddingBottom: "10px" }}
         >
-          <h1 style={{ margin: 0 }}>Milanote Board Submission</h1>
+          <h1 style={{ margin: 0 }}>Influencer Board Submission</h1>
           <div
             onClick={() => boardOpenPopup(false)}
             style={{
@@ -101,11 +101,10 @@ const Boards = ({ boardOpenPopup }) => {
 
         {/* Footer */}
         <footer style={{ borderTop: "1px solid lightgray", paddingTop: "10px" }}>
-          <p>Footer here</p>
+          <p>Written by Todd Taylor</p>
         </footer>
       </div>
 
-      {/* Conditionally Render Image Upload Popups */}
       {isProject1Open && (
         <div style={popupStyle}>
           <h3>Submit Board 1</h3>

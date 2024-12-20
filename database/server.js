@@ -6,13 +6,13 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" }); 
 const router = express.Router();
 
-// Configure multer for file uploads
+// Multer allows for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/"); // Directory where images will be stored
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname); // Unique file name
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
@@ -29,22 +29,20 @@ mongoose
 // Print Admin and Influencer data
 app.post("/", async (req, res) => {
     try {
-      // Fetch all Admin documents
       const admins = await Admin.find();
-      console.log("Admins in the database:", admins); // Log admins to the terminal
+      console.log("Admins in the database:", admins);
   
-      // Fetch all Influencer documents
       const influencers = await Influencer.find();
-      console.log("Influencers in the database:", influencers); // Log influencers to the terminal
+      console.log("Influencers in the database:", influencers);
   
-      res.json({ admins, influencers }); // Optionally, return the data in the response
+      res.json({ admins, influencers }); 
     } catch (err) {
       console.error("Error fetching data:", err);
       res.status(500).json({ error: "Error fetching data" });
     }
   });
 
-// Login route
+// Login 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -65,33 +63,33 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Logout
 app.post("/logout", async (req, res) => {
     try {
-      // Example: Save user submissions logic here
+      // Save user submissions and close the database here
       const { username, submissions } = req.body;
   
-      // Assuming you have a Submissions model
       await Submissions.create({ username, submissions });
   
       console.log(`Submissions saved for user: ${username}`);
       
-      // Respond with a success message
       res.json({ message: "Logged out successfully and submissions saved." });
   
       // Optionally close the database connection if required
-      // mongoose.connection.close(() => {
-      //   console.log("MongoDB connection closed.");
-      // });
+    //   mongoose.connection.close(() => {
+    //     console.log("MongoDB connection closed.");
+    //   });
     } catch (err) {
       console.error("Error during logout:", err);
       res.status(500).json({ error: "Failed to log out and save data." });
     }
   });
 
+// Upload images
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
     const { project } = req.body;
-    const username = req.body.username || "unknown_user"; // Add logic to fetch actual username
+    const username = req.body.username || "unknown_user";
     const imagePath = req.file.path;
 
     // Save the image path to the database
@@ -106,8 +104,6 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     res.status(500).json({ error: "Failed to upload image." });
   }
 });
-
-  
 
 // Start the server
 const PORT = 3000;

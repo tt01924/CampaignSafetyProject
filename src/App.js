@@ -38,18 +38,17 @@ export default function App() {
       alert("An error occurred during login.");
     }
   };
-
+  // Handle logout
   const handleLogout = async () => {
     try {
-      // Example: Pass the username and any submissions to the backend
       const response = await fetch("http://localhost:3000/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "current_user", // Replace with actual username
-          submissions: [], // Replace with actual submissions if applicable
+          username: "current_user",
+          submissions: [],
         }),
       });
   
@@ -57,7 +56,7 @@ export default function App() {
         const data = await response.json();
         console.log(data.message);
         setIsLoggedIn(false); // Reset login state
-        setIsAdmin(false); // Reset admin state
+        setIsAdmin(false); // Reset login state for admin
       } else {
         console.error("Logout failed.");
       }
@@ -76,7 +75,6 @@ export default function App() {
         <h1>Welcome, Admin!</h1>
         <p>This is the admin page. Manage influencer submissions here.</p>
         <button onClick={handleLogout}>Logout</button>
-        {/* Add admin-specific functionality here */}
       </div>
     );
   }

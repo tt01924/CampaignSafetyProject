@@ -60,6 +60,7 @@ const Topic = ({ topicOpenPopup }) => {
                     <legend>Video topic</legend>
                     <div class="contactFields">
                         <div class="field">
+                          {/* Fieldset to collect the video topic information */}
                             <label class="form__label field__label" for="ContactForm-body">Please enter below:</label>
                             <textarea rows="10" id="ContactForm-body" class="text-area field__input" name="contact[Comment]" placeholder="Video submission"></textarea>
                         </div>
@@ -73,7 +74,7 @@ const Topic = ({ topicOpenPopup }) => {
         </div>
         {/* Footer */}
         <footer style={{ borderTop: "1px solid lightgray", paddingTop: "10px" }}>
-          Footer here
+        Written by Todd Taylor
         </footer>
       </div>
     </div>
