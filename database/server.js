@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { Admin, Influencer } = require("./entities");
+const { Admin, Influencer, Submissions } = require("./entities");
 const cors = require('cors');
 
 const app = express();
@@ -50,6 +50,30 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+app.post("/logout", async (req, res) => {
+    try {
+      // Example: Save user submissions logic here
+      const { username, submissions } = req.body;
+  
+      // Assuming you have a Submissions model
+      await Submissions.create({ username, submissions });
+  
+      console.log(`Submissions saved for user: ${username}`);
+      
+      // Respond with a success message
+      res.json({ message: "Logged out successfully and submissions saved." });
+  
+      // Optionally close the database connection if required
+      // mongoose.connection.close(() => {
+      //   console.log("MongoDB connection closed.");
+      // });
+    } catch (err) {
+      console.error("Error during logout:", err);
+      res.status(500).json({ error: "Failed to log out and save data." });
+    }
+  });
+  
 
 // Start the server
 const PORT = 3000;

@@ -7,12 +7,13 @@ import Boards from "./Boards";
 import "./Style.css";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state
-  const [isAdmin, setIsAdmin] = useState(false); // Admin role state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login
+  const [isAdmin, setIsAdmin] = useState(false); // Admin 
 
   const [isScriptOpen, setIsScriptOpen] = useState(false);
   const [isTopicOpen, setIsTopicOpen] = useState(false);
   const [isBoardsOpen, setIsBoardsOpen] = useState(false);
+  const [isLogoutOpen, setIsLogoutBack] = useState(false);
 
   // Handle login
   const handleLogin = async (username, password) => {
@@ -38,6 +39,33 @@ export default function App() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      // Example: Pass the username and any submissions to the backend
+      const response = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "current_user", // Replace with actual username
+          submissions: [], // Replace with actual submissions if applicable
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        setIsLoggedIn(false); // Reset login state
+        setIsAdmin(false); // Reset admin state
+      } else {
+        console.error("Logout failed.");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   if (!isLoggedIn) {
     return <Login onLogin={handleLogin} />;
   }
@@ -54,11 +82,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>Welcome to Star Pack!</h1>
+      <h1>Welcome to Star Pack !</h1>
       {/* Buttons */}
       <button onClick={() => setIsTopicOpen(true)}>Video Topic</button>
       <button onClick={() => setIsBoardsOpen(true)}>Boards</button>
       <button onClick={() => setIsScriptOpen(true)}>Script</button>
+      <button onClick={handleLogout}>Logout</button>
 
       {isScriptOpen && <Script scriptOpenPopup={setIsScriptOpen} />}
       {isTopicOpen && <Topic topicOpenPopup={setIsTopicOpen} />}

@@ -34,6 +34,14 @@ const AdminMessageSchema = new mongoose.Schema({
   notes: String,
 });
 
+// Define the submission schema
+const submissionSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  submissions: { type: Array, required: true }
+});
+// Create the model from the schema
+const Submissions = mongoose.model('Submissions', submissionSchema);
+
 // Export models
 module.exports = {
   Admin: mongoose.model("Admin", AdminSchema),
@@ -43,4 +51,5 @@ module.exports = {
     InfluencerSubmissionEntrySchema
   ),
   AdminMessage: mongoose.model("AdminMessage", AdminMessageSchema),
+  Submissions: Submissions
 };
